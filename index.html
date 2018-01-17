@@ -7,20 +7,26 @@
 <body>
 
     <h1>Parent Window</h1>
-    <p>Send Message: <button id="message_button">Hi there iframe</button></p>
     <p>Got Message:</p>
     <div id="results"></div>
     <br/>
 
     <script>
-        // addEventListener support for IE8
-        function bindEvent(element, eventName, eventHandler) {
-            if (element.addEventListener){
-                element.addEventListener(eventName, eventHandler, false);
-            } else if (element.attachEvent) {
-                element.attachEvent('on' + eventName, eventHandler);
-            }
-        }
+        // Callback for message event
+        const displayMessage = (event) => {
+            // Check the origin to validate message sender
+            console.log(event.origin);
+
+            // Can add more validations here
+            
+            results = document.getElementById('results');
+            results.innerHTML = event.data;
+            console.log(event.data);
+        };
+
+        // Listen for message event
+        window.addEventListener('message', displayMessage, false);
+
         var iframeSource = 'https://www.msig-thai.com/ecommerce/testtraveloka/';
         // Create the iframe
         var iframe = document.createElement('iframe');
@@ -29,24 +35,7 @@
         iframe.style.width = 1000 + 'px';
         iframe.style.height = 500 + 'px';
         document.body.appendChild(iframe);
-        // Send a message to the child iframe
-        var iframeEl = document.getElementById('the_iframe'),
-            messageButton = document.getElementById('message_button'),
-            results = document.getElementById('results');
-        // Send a message to the child iframe
-        var sendMessage = function(msg) {
-            // Make sure you are sending a string, and to stringify JSON
-            iframeEl.contentWindow.postMessage(msg, '*');
-        };
-        // Send random messge data on every button click
-        bindEvent(messageButton, 'click', function (e) {
-            var random = Math.random();
-            sendMessage('' + random);
-        });
-        // Listen to message from child window
-        bindEvent(window, 'message', function (e) {
-            results.innerHTML = e.data;
-        });
+
     </script>
 </body>
 </html>
