@@ -18,7 +18,7 @@
             status: 'SUCCESS',
           }
         
-          parentWindow.postMessage(data, 'localhost:2900/en/booking/');
+          parentWindow.postMessage(data, 'http://localhost:2900/en/booking/');
           notice = document.getElementById('notice');
           notice.innerHTML = 'DATA SENT';
         };
