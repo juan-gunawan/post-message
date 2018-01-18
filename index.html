@@ -2,39 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Parent Window</title>
+    <title>Child iframe Window</title>
 </head>
 <body>
 
-    <h1>Parent Window</h1>
-    <p>Got Message:</p>
-    <div id="results"></div>
+    <h1>Iframe Window</h1>
+    <p>Notification:</p>
+    <div id="notice"></div>
     <br/>
 
     <script>
         // Callback for message event
-        const displayMessage = (event) => {
-            // Check the origin to validate message sender
-            console.log(event.origin);
-
-            // Can add more validations here
-            
-            results = document.getElementById('results');
-            results.innerHTML = event.data;
-            console.log(event.data);
+        const sendMessage = () => {
+          const data = {
+            status: 'SUCCESS',
+          }
+        
+          parentWindow.postMessage(data, 'https://juan-gunawan.github.io/post-message/');
+          notice = document.getElementById('notice');
+          notice.innerHTML = 'DATA SENT';
         };
 
-        // Listen for message event
-        window.addEventListener('message', displayMessage, false);
+        // Get the parent's window
+        const parentWindow = window.parent;
 
-        var iframeSource = 'https://www.msig-thai.com/ecommerce/testtraveloka/';
-        // Create the iframe
-        var iframe = document.createElement('iframe');
-        iframe.setAttribute('src', iframeSource);
-        iframe.setAttribute('id', 'the_iframe');
-        iframe.style.width = 1000 + 'px';
-        iframe.style.height = 500 + 'px';
-        document.body.appendChild(iframe);
+        window.addEventListener('load', sendMessage, false);
 
     </script>
 </body>
