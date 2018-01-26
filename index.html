@@ -2,29 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Child iframe Window</title>
+    <title>Parent Window</title>
 </head>
 <body>
 
-    <h1>Iframe Window</h1>
-    <p>Notification:</p>
-    <div id="notice"></div>
+    <h1>Parent Window</h1>
+    <p>Got Message:</p>
+    <div id="results"></div>
     <br/>
 
     <script>
         // Callback for message event
-        const sendMessage = () => {
-          const data = "id=12345&dob1=19930316&nationality1=Thailand&citizenId1=54321&passport1=a123456&isEligible1=true";
-        
-          parentWindow.postMessage(data, 'http://localhost:2900/en/booking/');
-          notice = document.getElementById('notice');
-          notice.innerHTML = 'DATA SENT';
+        const displayMessage = (event) => {
+            // Check the origin to validate message sender
+            console.log(event.origin);
+
+            // Can add more validations here
+            
+            results = document.getElementById('results');
+            results.innerHTML = event.data;
+            console.log(event.data);
+            alert(`RECEIVED DATA: ${event.data}`);
         };
 
-        // Get the parent's window
-        const parentWindow = window.parent;
+        // Listen for message event
+        window.addEventListener('message', displayMessage, false);
 
-        window.addEventListener('load', sendMessage, false);
+        var iframeSource = 'https://www.msig-thai.com/ecommerce/testtraveloka/';
+        // Create the iframe
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('src', iframeSource);
+        iframe.setAttribute('id', 'the_iframe');
+        iframe.style.width = 1000 + 'px';
+        iframe.style.height = 500 + 'px';
+        document.body.appendChild(iframe);
 
     </script>
 </body>

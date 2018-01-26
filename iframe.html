@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Child iframe Window</title>
+</head>
+<body>
+
+    <h1>Iframe Window</h1>
+    <p>Notification:</p>
+    <div id="notice"></div>
+    <br/>
+
+    <script>
+        // Callback for message event
+        const sendMessage = () => {
+          const data = "id=12345&dob1=19930316&nationality1=Thailand&citizenId1=54321&passport1=a123456&isEligible1=true";
+        
+          parentWindow.postMessage(data, 'http://localhost:2900/en/booking/');
+          notice = document.getElementById('notice');
+          notice.innerHTML = 'DATA SENT';
+        };
+
+        // Get the parent's window
+        const parentWindow = window.parent;
+
+        window.addEventListener('load', sendMessage, false);
+
+    </script>
+</body>
+</html>
